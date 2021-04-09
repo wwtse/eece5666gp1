@@ -1,3 +1,3 @@
-function[] = t11()
+function[] = test1()
 disp("hi");
 end
