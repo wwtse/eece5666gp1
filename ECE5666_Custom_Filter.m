@@ -2,9 +2,9 @@ clear;
 clc;
 
 %load('RSdataMine')
-load('RSdataB0904_1')
+load('IMU_Hover/RSdataB0904_1')
 %load('RSdataMine0904')
-
+%% subplot
 subplot(3,2,1)
 plot(rt_sensor.time,rt_sensor.signals.values(:,1))
 title('x-accel')
@@ -29,6 +29,7 @@ subplot(3,2,6)
 plot(rt_sensor.time,rt_sensor.signals.values(:,6))
 title('z-w')
 
+%% calu
 %Sampling frequeny -> 500 Hz
 Fs = 500;
 
@@ -62,15 +63,21 @@ alpha = M/2;
 window = hamming(L);
 
 n = 0:M;
-hd = ideallp(om_cutoff,M);
-h = hd.*window;
+hd = ideallp(om_cutoff,L);
+h = hd.*window.';
+h1 = [h zeros(1,length(rt_sensor.signals.values(:,1))-1)];
+rtax = [rt_sensor.signals.values(:,1); zeros(length(h)-1,1)]';
+rtay = [rt_sensor.signals.values(:,2); zeros(length(h)-1,1)]';
+rtaz = [rt_sensor.signals.values(:,3); zeros(length(h)-1,1)]';
 
-ax = conv(h,rt_sensor.signals.values(:,1));
-ay = conv(h,rt_sensor.signals.values(:,2));
-az = conv(h,rt_sensor.signals.values(:,3));
+
+ax = ifft(fft(h1).*fft(rtax));
+ay = ifft(fft(h1).*fft(rtay));
+az = ifft(fft(h1).*fft(rtaz));
 
 %az = lowpass(rt_sensor.signals.values(:,3),om_pass);
 
+%% subplot2
 figure()
 subplot(3,2,1)
 plot(rt_sensor.time,rt_sensor.signals.values(:,1))
@@ -97,5 +104,11 @@ subplot(3,2,6)
 plot(az)
 title('az - filtered')
 
-
-
+%% ideallp function
+% return ideal impulse response
+ function F = ideallp(wc,N)
+ t = (N+1)/2;              
+ x = 0: (N-1);             
+ m = x - t + eps;          
+ F = sin(wc*m) ./ (pi*m);
+ end
