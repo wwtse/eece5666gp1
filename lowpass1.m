@@ -85,5 +85,4 @@ title("az")
 
 %% output
 %save(fname(7:end)+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
-%save("calib"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
-%save("arduino"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
+%save("calib"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');%save("Arduino"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');

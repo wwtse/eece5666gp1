@@ -29,7 +29,7 @@ r = imu_calib(:,19);
 
 fs = 119;
 
-fname = "putty_test4";
+fname = "putty_test3";
 data1 = table2array(readtable("IMU_Hover/"+fname));
 p = data1(:,4);
 q = data1(:,5);
@@ -38,8 +38,8 @@ wt = 1/fs*(0:(length(data1)-1));
 
 %%
 
-fir1 = tfir1;
-fir2 = tfir2;
+fir1 = tfir2;
+fir2 = tfir1;
 
 fp1 = filter(fir1,1,p);
 fq1 = filter(fir1,1,q);
@@ -85,4 +85,4 @@ plot(wtt2,fr1_1);
 title("r")
 
 %save(fname(7:end)+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');
-save("calib"+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');
+save("Arduino"+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');
