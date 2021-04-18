@@ -3,3 +3,7 @@ IMU_Hover/
 *.asv
 *.csv
 *.mat
+!IMU_Hover/putty_test1
+!IMU_Hover/putty_test2
+!IMU_Hover/putty_test3
+!IMU_Hover/putty_test4
