@@ -1,4 +1,4 @@
-function Hd = trfir2
+function b = trfir2
 %TRFIR2 Returns a discrete-time filter object.
 
 % MATLAB Code
@@ -21,6 +21,6 @@ flag  = 'scale';          % Sampling Flag
 
 % Calculate the coefficients using the FIR1 function.
 b  = fir1(N, Wn, TYPE, kaiser(N+1, BETA), flag);
-Hd = dfilt.dffir(b);
+%Hd = dfilt.dffir(b);
 
 % [EOF]

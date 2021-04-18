@@ -1,25 +1,52 @@
 clear;
-close all;
+%close all;
 %% load
+%Hover data
+%{
 fname = 'RSdataMine';
 load("IMU_Hover/"+fname+".mat");
 
-t = rt_sensor.time;
-T = t(2)- t(1);
+at = rt_sensor.time;
+T = at(2)- at(1);
 fs = round(1/T);
 
 ax = rt_sensor.signals.values(:,1);
 ay = rt_sensor.signals.values(:,2);
 az = rt_sensor.signals.values(:,3);
+%}
 
+%calib data
+%{
+load("imu_calib.csv")
+at = imu_calib(:,1)*10^-9;
+T = at(2)- at(1);
+fs = round(1/T);
+
+ax = imu_calib(:,29);
+ay = imu_calib(:,30);
+az = imu_calib(:,31);
+%}
+
+%arduino data
+
+fs = 119;
+
+fname = "putty_test3";
+data1 = table2array(readtable("IMU_Hover/"+fname));
+ax = data1(:,1);
+ay = data1(:,2);
+az = data1(:,3);
+at = 1/fs*(0:(length(data1)-1));
 %% filter 
-fx1 = filter(tfir1,1,ax);
-fy1 = filter(tfir1,1,ay);
-fz1 = filter(tfir1,1,az);
+fir = trfir1;
+
+fx1 = filter(fir,1,ax);
+fy1 = filter(fir,1,ay);
+fz1 = filter(fir,1,az);
 
 %% cut linear delay
-fdelay  = mean(grpdelay(tfir1,fs,length(t)));
-tt = t(1:end-fdelay);
+fdelay  = mean(grpdelay(fir,fs,length(at)));
+att = at(1:end-fdelay);
 
 axx = ax(1:end-fdelay);
 fx1_1 = fx1;
@@ -34,26 +61,29 @@ fz1_1 = fz1;
 fz1_1(1:fdelay) = [];
 
 %% plot 
-%{
+
 figure;
+title(char(fir))
 subplot(3,1,1)
 hold on;
-plot(tt,axx);
-plot(tt,fx1_1);
+plot(att,axx);
+plot(att,fx1_1);
 title("ax")
 
 subplot(3,1,2)
 hold on;
-plot(tt,ayy);
-plot(tt,fy1_1);
+plot(att,ayy);
+plot(att,fy1_1);
 title("ay")
 
 subplot(3,1,3)
 hold on;
-plot(tt,azz);
-plot(tt,fz1_1);
+plot(att,azz);
+plot(att,fz1_1);
 title("az")
-%}
+
 
 %% output
-save(fname(7:end)+"facc"+".mat",'tt','fx1_1','fy1_1','fz1_1');
+%save(fname(7:end)+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
+%save("calib"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
+%save("arduino"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
