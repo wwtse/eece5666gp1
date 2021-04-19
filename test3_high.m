@@ -1,5 +1,5 @@
 clear;
-close all;
+%close all;
 %% load
 %Hover data
 %{
@@ -28,18 +28,20 @@ r = imu_calib(:,19);
 %arduino data
 
 fs = 119;
+dps2SI = 0.01745329252;
 
-fname = "putty_test3";
+fo = 10;
+fname = "putty_test"+fo;
 data1 = table2array(readtable("IMU_Hover/"+fname));
-p = data1(:,4);
-q = data1(:,5);
-r = data1(:,6);
+p = data1(:,4)*dps2SI;
+q = data1(:,5)*dps2SI;
+r = data1(:,6)*dps2SI;
 wt = 1/fs*(0:(length(data1)-1));
 
 %%
 
-fir1 = tfir2;
-fir2 = tfir1;
+fir1 = trfir2;
+fir2 = trfir2;
 
 fp1 = filter(fir1,1,p);
 fq1 = filter(fir1,1,q);
@@ -85,4 +87,4 @@ plot(wtt2,fr1_1);
 title("r")
 
 %save(fname(7:end)+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');
-save("Arduino"+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');
+save("Arduino"+fname+"fgyro"+".mat",'wtt','fp1_1','fq1_1','wtt2','fr1_1');

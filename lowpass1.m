@@ -30,15 +30,17 @@ az = imu_calib(:,31);
 %arduino data
 
 fs = 119;
+g = 9.81;
 
-fname = "putty_test3";
+fo = 10;
+fname = "putty_test"+fo;
 data1 = table2array(readtable("IMU_Hover/"+fname));
-ax = data1(:,1);
-ay = data1(:,2);
-az = data1(:,3);
+ax = data1(:,1)*g;
+ay = data1(:,2)*g;
+az = data1(:,3)*g;
 at = 1/fs*(0:(length(data1)-1));
 %% filter 
-fir = trfir1;
+fir = trfir2;
 
 fx1 = filter(fir,1,ax);
 fy1 = filter(fir,1,ay);
@@ -85,4 +87,5 @@ title("az")
 
 %% output
 %save(fname(7:end)+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
-%save("calib"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');%save("Arduino"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
+%save("calib"+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
+save("Arduino"+fname+"facc"+".mat",'att','fx1_1','fy1_1','fz1_1');
