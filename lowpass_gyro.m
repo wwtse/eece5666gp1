@@ -27,7 +27,7 @@ r = imu_calib(:,19);
 %}
 %arduino data
 
-fs = 4;
+fs = 119;
 dps2SI = 0.01745329252;
 
 fo = 10;

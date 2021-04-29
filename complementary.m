@@ -1,18 +1,3 @@
-%{
-% load(name);
-% 
-% Fs = 200;
-% T = 1/Fs;
-% L = length(rt_sensor.time);
-% az = rt_sensor.signals.values(:,2);
-% Y = fft(az);
-% P2 = abs(Y/L);
-% P1 = P2(1:L/2+1);
-% P1(2:end-1) = 2*P1(2:end-1);
-% f =Fs*(0:(L/2))/L;
-% figure()
-% plot(f,P1)
-%}
 clear;
 fo = 10;
 fname = "Arduino"+"putty_test"+fo;
