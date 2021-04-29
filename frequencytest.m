@@ -1,14 +1,23 @@
 clear;
 close all;
 
-load("IMU_Hover/RSdataMine0904.mat");
+% load("IMU_Hover/RSdataMine0904.mat");
+fs = 119;
+g = 9.81;
 
-T = rt_sensor.time(2,1)-rt_sensor.time(1,1);
-Fs = 1/T;
-L = length(rt_sensor.time);
-t = rt_sensor.time;
+fo = 4; %5 is useless
+fname = "putty_test"+fo;
+data1 = table2array(readtable("IMU_Hover/"+fname));
+ax = data1(1:end-1,1)*g;
+ay = data1(1:end-1,2)*g;
+az = data1(1:end-1,3)*g;
+at = 1/fs*(0:(length(data1)-1));
 
-S = rt_sensor.signals.values(:,6);
+S = ax;
+T = at(2)-at(1);
+Fs = fs;
+L = length(S);
+t = at;
 
 X = S;
 Y = fft(X);
@@ -23,13 +32,5 @@ plot(f,P1)
 title('Single-Sided Amplitude Spectrum of X(t)')
 xlabel('f (Hz)')
 ylabel('|P1(f)|')
-%=====================
 
-% figure;
-% hold on;
-% %subplot(2,1,1);
-% plot(t,S)
-% %subplot(2,1,2);
-% S1 = lowpass(S,15,Fs);
-% plot(t,S1)
 

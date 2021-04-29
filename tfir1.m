@@ -8,10 +8,11 @@ function b = tfir1
 % FIR Window Lowpass filter designed using the FIR1 function.
 
 % All frequency values are in Hz.
-Fs = 200;  % Sampling Frequency
+Fs = 119;  % Sampling Frequency
+ration = Fs/200;
 
-Fpass = 12;               % Passband Frequency
-Fstop = 20;               % Stopband Frequency
+Fpass = 12*ration;               % Passband Frequency 7.2
+Fstop = 20*ration;               % Stopband Frequency 12
 Dpass = 0.057501127785;   % Passband Ripple
 Dstop = 0.0031622776602;  % Stopband Attenuation
 flag  = 'scale';          % Sampling Flag

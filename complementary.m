@@ -68,7 +68,7 @@ tau = 0.1;  % desired time constant
 alpha = tau/(tau+T);
 c_ang = (1-alpha)*gyro_ang+alpha*accel_ang;
 
-for i = 1:3    
+for i = 1:2    
     figure();
     hold on;
     plot(f(:,7),accel_ang(:,i),'DisplayName',"a"+i);

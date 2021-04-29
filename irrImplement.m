@@ -8,7 +8,7 @@ close all;
 fs = 119;
 g = 9.81;
 
-fo = 10;
+fo = 6;
 fname = "putty_test"+fo;
 data1 = table2array(readtable("IMU_Hover/"+fname));
 ax = data1(:,1)*g;
@@ -20,15 +20,24 @@ ax(end) = [];
 ay(end) = [];
 az(end) = [];
 at(end) = [];
-%% filtfilt
+%% filter
 iir = tiir1;
+
+%filtfilt
 
 fx1 = filtfilt(iir.sosMatrix,iir.ScaleValues,ax);
 fy1 = filtfilt(iir.sosMatrix,iir.ScaleValues,ay);
 fz1 = filtfilt(iir.sosMatrix,iir.ScaleValues,az);
 
-%% plot 
 
+%filter
+%{
+fx1 = filter(iir,ax);
+fy1 = filter(iir,ay);
+fz1 = filter(iir,az);
+%}
+%% plot 
+%{
 figure;
 title(iir.FilterStructure)
 subplot(3,1,1)
@@ -49,3 +58,5 @@ plot(at,az);
 plot(at,fz1);
 title("az")
 
+sgtitle('IIR');
+%}

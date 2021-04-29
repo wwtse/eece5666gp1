@@ -27,7 +27,7 @@ r = imu_calib(:,19);
 %}
 %arduino data
 
-fs = 119;
+fs = 4;
 dps2SI = 0.01745329252;
 
 fo = 10;
@@ -40,8 +40,8 @@ wt = 1/fs*(0:(length(data1)-1));
 
 %%
 
-fir1 = trfir2;
-fir2 = trfir2;
+fir1 = tfir1;
+fir2 = tfir1;
 
 fp1 = filter(fir1,1,p);
 fq1 = filter(fir1,1,q);
